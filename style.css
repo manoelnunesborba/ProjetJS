@@ -1,0 +1,52 @@
+#map { 
+    position:absolute;
+    top :0;
+    bottom: 140px;
+    left:0;
+    right: 0;
+}
+.wraplogin{
+    margin-top: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family:Arial, Helvetica, sans-serif;
+    font-size: large;
+    
+}
+.titleConnect{
+    margin-top:0;
+    color:#33A8FF;
+    font-size: 38px;
+}
+.btnsubmit{
+    color:white;
+    border: 0px solid transparent;
+    width: 185.15px;
+    height: 46px;
+    background: #33A8FF;
+    box-shadow: 2px 2px 2px rgba(94, 94, 94, 0.25);
+    border-radius: 4px;
+}
+.input1{
+    width: 96%;
+    height: 23px;
+}
+.input2{
+    width: 96%;
+    height: 23px;
+}
+.login{
+    background: #FFFFFF;
+    box-shadow: 0px 4px 10px 3px rgba(120, 136, 179, 0.5);
+    border-radius: 19px;
+    padding:3%;
+    color:#088CEF;
+    font-size: large;
+}
+.wrapbtn{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
