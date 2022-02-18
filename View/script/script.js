@@ -1,14 +1,21 @@
-/*var map = L.map('map').setView([0,0],1);
-			L.tileLayer('https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=PK3tYCS5Vq37x8aBBZNf', {
-   				 attribution: '<a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>'
-			}).addTo(map);*/
+/**/
+var e_msg;
+window.onload = function(){
+    e_msg = document.getElementById("e_msg");
+    e_msg.style.display="none";
+}
+
+
+var token;
 
 const form = document.getElementById("formId");
 form.addEventListener('submit', function(e){
     e.preventDefault();
+    var username1 = document.getElementById("username").value;
+    var password1 = document.getElementById("password").value;
     const details ={
-        username:"yacine",
-        password:"4321"
+        username:username1,
+        password:password1
     }
 
     var formBody = [];
@@ -23,17 +30,21 @@ form.addEventListener('submit', function(e){
         method:"POST", 
 
         headers: {
-            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Origin': 'http://localhost:4444/login',
             'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
-            
           },
         body:formBody
     }).then(function(response){
-        return response.text();
+        
+        return response.json();
+        
     }).then(function(text){
-        console.log(text);
+        
+        token = localStorage.setItem('token', JSON.stringify(text));
+        window.location.href = "http://localhost:80/test/projetJS/index.php?connected=true";
+
     }).catch(function(error){
-        console.error(error);
+        e_msg.style.display="";
     })
 });
 

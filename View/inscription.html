@@ -1,0 +1,36 @@
+<!DOCTYPE html> <!-- proper HTML5 doctype -->
+<html lang="fr">
+
+<head>
+  	<meta charset="utf-8">
+  	<title>Create account</title>
+	<link href="./style/style.css" rel="stylesheet">
+</head>
+
+<body>
+	<div class="wraplogin">
+		
+		<form id="formId" class="login">
+		<h1 class='titleConnect'>Créer un compte</h1>
+		<div class="fromlow"></div>
+		<label for="username">Username:</label><br>
+		<input class="input1" type="text" id="username" value=""><br><br>
+		<label for="lname">Mot de passe:</label><br>
+		<input class="input2" type="text" id="password" value=""><br><br>
+		<label for="lname">Repetez votre mot de passe:</label><br>
+		<input class="input3" type="text" id="passwordR" value=""><br><br>
+
+		<div id="question">Déjà un compte ? <a href="./../index.php">Se connecter</a></div>
+
+		<div class ="wrapbtn">
+		<input class="btnsubmit" type="submit" value="Submit">
+		</div>
+	  </form>
+	</div>
+	<div id="e_msg" class = "errorMSG">
+		<div id ="errTXT" class="errorTXT">ERROR</div>
+	</div>
+  	<script src="./script/script3.js"></script>
+</body>
+  
+</html>
