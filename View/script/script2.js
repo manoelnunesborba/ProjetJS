@@ -9,35 +9,45 @@ window.onload = function(){
 
     selector = document.getElementById('selector');
     const btn = document.getElementById('selector');
-    btn.addEventListener('click', function(){
-        var token = JSON.parse(localStorage.getItem("token"));
-        var data = "Baerer " + token["accesToken"];
-        console.log(data);
-        fetch('http://localhost:4444/controller/getcoord', {    
-            method:"GET", 
-            headers: {
-                'Authorization': data,
-                'Access-Control-Allow-Origin': '*',
-                'Content-Type': 'application/json'
-              },
-            body:test
-        }).then(function(response){
+        
+    document.getElementById("nom").innerHTML = '<h1> Bienvenu ' + localStorage.getItem('username') +'</h1>';
+    const adr = document.getElementById("adr");
+    var token = JSON.parse(localStorage.getItem("token"));
+    var data = "Baerer " + token["accesToken"];
+    var obj;
+    fetch('http://localhost:4444/controller/getcoord', {    
+        method:"GET", 
+        headers: {
+            'Authorization': data,
+            'Access-Control-Allow-Origin': '*',
+            'Content-Type': 'application/json'
+          },
+    }).then(function(response){
+        
+        return response.json();
             
-            return response.json();
-                
-        }).then(function(text){
-            console.log("ici")
-            console.log(text)
-    
-        }).catch(function(error){
-        })
-    })
-}
+    }).then(function(text){
+       return text;
+        
+    }).then(function(obj){
+        const ul= document.createElement('ul')
+        adr.appendChild(ul);
+        for(let i=0; i < Object.keys(obj).length;i++){
+            var li = document.createElement('li');
+            ul.appendChild(li);
+            console.log(obj);
+            li.innerHTML =obj[i].libelle + ' x : ' + obj[i].x + ' y : ' + obj[i].y;
+        }
 
+    } )
+    function renderProductList(element, index, arr) {
+            var li = document.createElement('li');
+            li.setAttribute('class','item');
 
+            ul.appendChild(li);
 
-const test = {
-    nom:"Premiere var", 
-    X:"1923812", 
-    Y:"0128405"
+            li.innerHTML=li.innerHTML + element;
+        }
+        
+
 }

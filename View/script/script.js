@@ -17,7 +17,7 @@ form.addEventListener('submit', function(e){
         username:username1,
         password:password1
     }
-
+    localStorage.setItem('username', username1);
     var formBody = [];
     for (var property in details) {
         var encodedKey = encodeURIComponent(property);
@@ -30,7 +30,7 @@ form.addEventListener('submit', function(e){
         method:"POST", 
 
         headers: {
-            'Access-Control-Allow-Origin': 'http://localhost:4444/login',
+            'Access-Control-Allow-Origin': '*',
             'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
           },
         body:formBody

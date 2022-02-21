@@ -56,10 +56,17 @@ html{
     text-align: center;
     color: #FFFFFF;
 }
-.titleConnect{
+.titleConnect {
     margin-top:0;
     color:#33A8FF;
     font-size: 38px;
+}
+.nom{
+    margin-top:0;
+    color:#33A8FF;
+    font-size: 30px;
+    font-family:Arial, Helvetica, sans-serif;
+    font-weight: 500;
 }
 .btnsubmit{
     color:white;
@@ -105,4 +112,24 @@ html{
     width: 100px;
     height: 100px;
     color:red;
+}
+.top{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.bas{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top:0;
+    color:#33A8FF;
+    font-size: 20px;
+    font-family:Arial, Helvetica, sans-serif;
+    font-weight: 500;
+}
+.wrap{
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
