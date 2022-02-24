@@ -15,7 +15,7 @@ window.onload = function(){
     var token = JSON.parse(localStorage.getItem("token"));
     var data = "Baerer " + token["accesToken"];
     var obj;
-    fetch('http://localhost:4444/controller/getcoord', {    
+    fetch('http://localhost:4433/controller/getcoord', {    
         method:"GET", 
         headers: {
             'Authorization': data,
@@ -36,7 +36,7 @@ window.onload = function(){
             var li = document.createElement('li');
             ul.appendChild(li);
             console.log(obj);
-            li.innerHTML =obj[i].libelle + ' x : ' + obj[i].x + ' y : ' + obj[i].y;
+            li.innerHTML ="<div class='draggable ui-widget-content'" + obj[i].libelle + ' x : ' + obj[i].x + ' y : ' + obj[i].y + "</div>";
         }
 
     } )
@@ -51,3 +51,15 @@ window.onload = function(){
         
 
 }
+
+function prepare_div_event() { //fonction lancée après le chargt des objets-balises en m�moire
+	$( function() {
+		$( ".draggable" ).draggable();
+		$( "#droppable" ).droppable({
+			drop: function(event, ui){
+				reponse(ui.draggable[0].id, tabObject[numQuestion].reponse, true);
+			}
+		});
+	 } );
+	
+};
