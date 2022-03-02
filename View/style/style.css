@@ -21,6 +21,7 @@ html{
     box-shadow: 0px 4px 10px 3px rgba(120, 136, 179, 0.5);
     border-radius: 19px;
 }
+
 .wraplogin{
     margin-top: 100px;
     display: flex;
@@ -129,6 +130,11 @@ html{
     font-weight: 500;
 }
 .wrap{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.imgwrap{
     display: flex;
     align-items: center;
     justify-content: center;
