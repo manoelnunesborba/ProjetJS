@@ -37,7 +37,7 @@ window.onload = function(){
             const li = document.createElement('li');
             
             console.log(obj[i].y);
-            li.innerHTML ="<div class='draggable ui-widget-content'>" + obj[i].libelle + ' x : ' + obj[i].x + ' y : ' + obj[i].y + "</div>";
+            li.innerHTML ="<div class='draggable ui-widget-content'> Libelle : " + obj[i].libelle + ' ( ' + obj[i].x + ' : ' + obj[i].y + " )</div>";
             ul.appendChild(li);
         }
         
@@ -56,7 +56,7 @@ window.onload = function(){
 }
 document.getElementById('imgwrap').addEventListener("click", function() {
     const addInput = document.getElementById("addInput");
-    addInput.innerHTML="<input id='textlbl' type='text' name='text' ><input id='textadr' type='text' name='text' ><button id='btnadd'>Ajouter</button>"
+    addInput.innerHTML="<input id='textlbl' type='text' name='text' placeholder='libelle'><input id='textadr' type='text' name='text' placeholder='rue, ville' ><button id='btnadd'>Ajouter</button>"
     addInput.style.display="flex";
     addInput.style.alignItems="center";
     addInput.style.justifyContent="center";
@@ -67,6 +67,7 @@ document.getElementById('imgwrap').addEventListener("click", function() {
 });*/
 
 document.getElementById("addInput").addEventListener("click", function(e){
+    const lib = document.getElementById("textlbl").value;
     if(e.target.id == 'btnadd'){
         const textadr = document.getElementById("textadr");
         $.ajax({
@@ -77,18 +78,20 @@ document.getElementById("addInput").addEventListener("click", function(e){
               limit: 1
             }
           }).done(function(data) {
-            save(data.data[0].latitude,data.data[0].longitude)
+              console.log(lib);
+            save(lib,data.data[0].latitude,data.data[0].longitude)
           });
     }
     
 })
 
 
-function save(x,y){
+function save(lib,x,y){
     var token = JSON.parse(localStorage.getItem("token"));
 
     var data = "Baerer " + token["accesToken"];
     const corps ={
+        libelle:lib,
         x:x,
         y:y
     };

@@ -11,6 +11,8 @@ html{
     right: 40%;
 }
 #selector{
+    overflow: scroll;
+    overflow-x: hidden;
     width: 35%;
     margin-top:2%;
     margin-right: 2%;
@@ -138,4 +140,14 @@ html{
     display: flex;
     align-items: center;
     justify-content: center;
+}
+ul{
+    padding-left: 2px;
+    list-style: none;
+}
+ul li{
+    margin:2px;
+    font-family:Arial, Helvetica, sans-serif;
+    font-weight: 600;
+    color :#088CEF;
 }
