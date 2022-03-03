@@ -2,18 +2,20 @@ html{
     margin: 0;
     height: 100%;
 }
-
+body{
+    overflow:initial;
+}
 #map { 
     position:absolute;
     top :0;
     bottom: 0;
     left:0;
-    right: 40%;
+    right: 0;
 }
 #selector{
-    overflow: scroll;
-    overflow-x: hidden;
-    width: 35%;
+    z-index: 401;
+
+    width: 30%;
     margin-top:2%;
     margin-right: 2%;
     height:90%;
@@ -109,13 +111,7 @@ html{
 #question{
     padding-bottom: 10px;
 }
-.test {
-    z-index: 0;
-    position:absolute;
-    width: 100px;
-    height: 100px;
-    color:red;
-}
+
 .top{
     display: flex;
     align-items: center;
@@ -146,7 +142,6 @@ ul{
     list-style: none;
 }
 ul li{
-    margin:2px;
     font-family:Arial, Helvetica, sans-serif;
     font-weight: 600;
     color :#088CEF;
