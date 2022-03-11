@@ -1,5 +1,6 @@
 const test=L.map('map');
 let myPosition;
+var route;
 function setMap(x,y,v){
     var map = test.setView([x,y+0.1],v);
     L.tileLayer('https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=PK3tYCS5Vq37x8aBBZNf', {
@@ -151,7 +152,6 @@ var markers=[];
 function supMarker(id, indice){
     console.log(markers[id])
     test.removeLayer(markers[id])
-    console.log(markers)
     if(markers.length==1){
         console.log('supression donc pop')
         const ele = markers.pop();
@@ -163,10 +163,9 @@ function supMarker(id, indice){
     sty.style.visibility='visible'
     sty.style=stytest[indice];
     sty.style.position='relative';
-    
+    route.spliceWaypoints(0, 4); 
 
-    console.log(markers);
-    
+
 }
 function placedispo(cord){
     if(markers.length==0){
@@ -194,7 +193,13 @@ function prepare_div_event() { //fonction lancée après le chargt des objets-ba
                     myMarker.addTo(test);
                     markers.push(myMarker)
                     myMarker.bindPopup("<b>" + tab.libelle +"</b><br /><button onClick='supMarker(" + markers.indexOf(myMarker) + "," +  ui.draggable[0].id +")'>Supprimer</button>.").openPopup();
-                    document.getElementById(ui.draggable[0].id).style.visibility='hidden';  
+                    document.getElementById(ui.draggable[0].id).style.visibility='hidden';
+                    route = L.Routing.control({
+                        waypoints: [
+                          L.latLng(myPosition.getLatLng().lat, myPosition.getLatLng().lng),
+                          L.latLng(myMarker.getLatLng().lat, myMarker.getLatLng().lng)
+                        ]
+                      }).addTo(test); 
                 }
                 
 			}
