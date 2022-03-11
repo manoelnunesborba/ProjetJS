@@ -5,11 +5,12 @@ function setMap(x,y,v){
          attribution: '<a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>'
     }).addTo(map);
 }
-
+var stytest=[];
 var tabTest;
 var dejaajoute = [];
 window.onload = function(){
-    
+    const test = localStorage.getItem("markers");
+    console.log(JSON.parse(test))
     getLocation();
     //var test = JSON.parse(localStorage.getItem('token'));
     //console.log(test);
@@ -45,21 +46,26 @@ window.onload = function(){
             console.log(obj[i].y);
             li.innerHTML ="<div id='" +i + "' class='draggable'> Libelle : " + obj[i].libelle + ' ( ' + obj[i].x + ' : ' + obj[i].y + " )</div>";
             ul.appendChild(li);
+
         }
         
         adr.appendChild(ul);
         prepare_div_event();
+        for(let i=0; i<tabTest.length; i++){
+            stytest.push(document.getElementById(i).getBoundingClientRect())
+        
+        }
     } )
-    function renderProductList(element, index, arr) {
+function renderProductList(element, index, arr) {
             var li = document.createElement('li');
             li.setAttribute('class','item');
 
             ul.appendChild(li);
 
             li.innerHTML=li.innerHTML + element;
-        }
-        
-        
+}
+
+    
 }
 document.getElementById('imgwrap').addEventListener("click", function() {
     const addInput = document.getElementById("addInput");
@@ -128,6 +134,39 @@ function save(lib,x,y){
     })
     
 }
+var markers=[];
+function supMarker(id, indice){
+    console.log(markers[id])
+    test.removeLayer(markers[id])
+    console.log(markers)
+    if(markers.length==1){
+        console.log('supression donc pop')
+        const ele = markers.pop();
+    }else{
+        console.log('supression via slice')
+        markers.splice(id,1)
+    }
+    const sty = document.getElementById(indice);
+    sty.style.visibility='visible'
+    sty.style=stytest[indice];
+    sty.style.position='relative';
+    
+
+    console.log(markers);
+    
+}
+function placedispo(cord){
+    if(markers.length==0){
+        return true;
+    }
+    for(let i=0; i<markers.length;i++){
+        let test =markers[i].getLatLng();
+        if(test.lat==cord.lat && test.lng == cord.lng){
+            return false;
+        }
+    }
+    return true;
+}
 
 function prepare_div_event() { //fonction lancée après le chargt des objets-balises en m�moire
 	$( function() {
@@ -135,10 +174,14 @@ function prepare_div_event() { //fonction lancée après le chargt des objets-ba
 		$( "[class='draggable']" ).draggable();
 		$( "[id='map']" ).droppable({
 			drop: function(event, ui){
-                if(!dejaajoute.includes(ui.draggable[0].id)){
-                    const tab = tabTest[ui.draggable[0].id];
-                    var myMarker = L.marker([tab.x, tab.y]).addTo(test);
-                    dejaajoute.push(ui.draggable[0].id)
+                const tab = tabTest[ui.draggable[0].id];
+                var myMarker = L.marker([tab.x, tab.y]);
+                console.log()
+                if(placedispo(myMarker.getLatLng())){
+                    myMarker.addTo(test);
+                    markers.push(myMarker)
+                    myMarker.bindPopup("<b>" + tab.libelle +"</b><br /><button onClick='supMarker(" + markers.indexOf(myMarker) + "," +  ui.draggable[0].id +")'>Supprimer</button>.").openPopup();
+                    document.getElementById(ui.draggable[0].id).style.visibility='hidden';  
                 }
                 
 			}
