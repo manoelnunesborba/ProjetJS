@@ -41,7 +41,7 @@ form.addEventListener('submit', function(e){
     }).then(function(text){
         
         token = localStorage.setItem('token', JSON.stringify(text));
-        window.location.href = "http://localhost:80/test/projetJS/index.php?connected=true";
+        window.location.href = "./index.php?connected=true";
 
     }).catch(function(error){
         e_msg.style.display="";

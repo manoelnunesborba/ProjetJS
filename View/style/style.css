@@ -12,6 +12,11 @@ body{
     left:0;
     right: 0;
 }
+.wrapinput{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 #selector{
     z-index: 401;
 

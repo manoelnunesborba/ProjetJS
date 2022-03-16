@@ -22,8 +22,6 @@ var stytest=[];
 var tabTest;
 var dejaajoute = [];
 window.onload = function(){
-    const test = localStorage.getItem("markers");
-    console.log(JSON.parse(test))
     getLocation();
     //var test = JSON.parse(localStorage.getItem('token'));
     //console.log(test);
@@ -82,10 +80,16 @@ function renderProductList(element, index, arr) {
 }
 document.getElementById('imgwrap').addEventListener("click", function() {
     const addInput = document.getElementById("addInput");
-    addInput.innerHTML="<input id='textlbl' type='text' name='text' placeholder='libelle'><input id='textadr' type='text' name='text' placeholder='rue, ville' ><button id='btnadd'>Ajouter</button>"
-    addInput.style.display="flex";
+    addInput.innerHTML="<input id='textlbl' type='text' name='text' placeholder='libelle'><br><input id='textadr' type='text' name='text' placeholder='rue, ville' ><br><div id='wrapbtn'><button id='btnadd'>Ajouter</button></div>"
+    /*addInput.style.display="flex";
     addInput.style.alignItems="center";
-    addInput.style.justifyContent="center";
+    addInput.style.justifyContent="center";*/
+    const stybtn = document.getElementById('wrapbtn').style
+    stybtn.display="flex";
+    stybtn.alignItems="center";
+    stybtn.justifyContent="center";
+    stybtn.paddingTop="5px";
+    document.getElementById('btnadd').style.color="#088CEF";
     addInput.style.paddingBottom="10px";
   });
 /*document.getElementById('btnadd').addEventListener("click", function() {
@@ -94,21 +98,31 @@ document.getElementById('imgwrap').addEventListener("click", function() {
 
 document.getElementById("addInput").addEventListener("click", function(e){
     const lib = document.getElementById("textlbl").value;
-    if(e.target.id == 'btnadd'){
-        const textadr = document.getElementById("textadr");
+    const textadr = document.getElementById("textadr").value;
+    if(e.target.id == 'btnadd' && lib!="" && textadr!=""){
+        
         $.ajax({
             url: 'http://api.positionstack.com/v1/forward',
             data: {
               access_key: '0cd9c1052d50e6fce491dc5e9991a170',
-              query: textadr.value,
-              limit: 1
+              query: textadr,
+              limit: 4
             },
             success: function(data){
                 const tpm=JSON.parse(data);
-                save(lib,tpm.data[0].latitude,tpm.data[0].longitude)
-                window.location.reload();
+                console.log(tpm.data.length);
+                if(tpm.data!=undefined && tpm.data.length==1){
+                    save(lib,tpm.data[0].latitude,tpm.data[0].longitude);
+                    window.location.reload();
+                }else{
+                    alert('trop de résultat')
+                }
             }
           })
+    }else if(e.target.id == 'btnadd' && lib==""){
+            alert("Entez un libellé")   
+    }else if(e.target.id == 'btnadd' && textadr==""){
+        alert("Entez une adresse")   
     }
     
 })
@@ -163,9 +177,11 @@ function supMarker(id, indice){
     sty.style.visibility='visible'
     sty.style=stytest[indice];
     sty.style.position='relative';
-    route.spliceWaypoints(0, 4); 
-
-
+    
+    
+}
+function supRoute(i){
+    test.removeLayer(route.options.waypoints[i])
 }
 function placedispo(cord){
     if(markers.length==0){
@@ -180,6 +196,12 @@ function placedispo(cord){
     return true;
 }
 
+function createButton(label, container) {
+    var btn = L.DomUtil.create('button', '', container);
+    btn.setAttribute('type', 'button');
+    btn.innerHTML = label;
+    return btn;
+}
 function prepare_div_event() { //fonction lancée après le chargt des objets-balises en m�moire
 	$( function() {
         
@@ -198,10 +220,14 @@ function prepare_div_event() { //fonction lancée après le chargt des objets-ba
                         waypoints: [
                           L.latLng(myPosition.getLatLng().lat, myPosition.getLatLng().lng),
                           L.latLng(myMarker.getLatLng().lat, myMarker.getLatLng().lng)
-                        ]
+                        ],createMarker: function(i, wp, nWps) {
+                            return L.marker(wp.latLng)
+                                .bindPopup("<b>" + tab.libelle +"</b><br /><button onClick='supRoute(" + i + ")'>Suprimer toute la route</button>.");
+                        }
                       }).addTo(test); 
                 }
-                
+                document.getElementsByClassName("leaflet-routing-container leaflet-bar leaflet-control")[0].style.visibility='hidden';
+
 			}
 		});
         $( "[id='selector']" ).droppable({
@@ -210,6 +236,8 @@ function prepare_div_event() { //fonction lancée après le chargt des objets-ba
 
 			}
 		});
+
 	 } );
 	
 };
+
