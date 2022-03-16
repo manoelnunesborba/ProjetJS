@@ -4,31 +4,36 @@
 <head>
 	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin="" />
 	<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+
   	<meta charset="utf-8">
   	<title>Log in page</title>
-	<link href="./View/style/style.css" rel="stylesheet">
+	<link href="./style/style.css" rel="stylesheet">
 </head>
 
 <body>
-	<div class="wraplogin">
+	<div  class="droppable"  id="map">
+		
+	</div>
+	<div id="wraplogin" class="wraplogin">
 		
 		<form id="formId" class="login">
-		<h1 class='titleConnect'>se connecter</h1>
-		<div class="fromlow"></div>
-		<label for="username">Nom:</label><br>
-		<input class="input1" type="text" id="username" value=""><br><br>
-		<label for="lname">Mot de passe:</label><br>
-		<input class="input2" type="text" id="password" value=""><br><br>
-		<div id="question">Pas de compte ? <a href="./View/inscription.html">Inscrivez-vous</a></div>
+			<h1 class='titleConnect'>se connecter</h1>
+			<div class="fromlow"></div>
+			<label for="username">Nom:</label><br>
+			<input class="input1" type="text" id="username" value=""><br><br>
+			<label for="lname">Mot de passe:</label><br>
+			<input class="input2" type="text" id="password" value=""><br><br>
+			<div id="question">Pas de compte ? <a href="./inscription.html">Inscrivez-vous</a></div>
 		<div class ="wrapbtn">
-		<input class="btnsubmit" type="submit" value="Submit">
+			<input class="btnsubmit" type="submit" value="Submit">
 		</div>
-	  </form>
+	  	</form>
 	</div>
-	<div id="e_msg" class = "errorMSG">
-		<div id ="errTXT" class="errorTXT">ERROR</div>
-	</div>
-  	<script src="./View/script/script.js"></script>
+		<div id="e_msg" class = "errorMSG">
+			<div id ="errTXT" class="errorTXT">ERROR</div>
+		</div>
+	
+  	<script src="./script/script.js"></script>
 </body>
   
 </html>

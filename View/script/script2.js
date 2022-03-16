@@ -22,6 +22,11 @@ var stytest=[];
 var tabTest;
 var dejaajoute = [];
 window.onload = function(){
+    const log = localStorage.getItem('token');
+    console.log()
+    if(JSON.parse(log).accesToken==""){
+        window.location.href="./index.html"
+    }
     getLocation();
     //var test = JSON.parse(localStorage.getItem('token'));
     //console.log(test);
@@ -66,7 +71,9 @@ window.onload = function(){
             stytest.push(document.getElementById(i).getBoundingClientRect())
         
         }
-    } )
+    }).catch(function(e){
+        window.location.href=window.location.href="./index.html";
+    })
 function renderProductList(element, index, arr) {
             var li = document.createElement('li');
             li.setAttribute('class','item');
@@ -81,9 +88,6 @@ function renderProductList(element, index, arr) {
 document.getElementById('imgwrap').addEventListener("click", function() {
     const addInput = document.getElementById("addInput");
     addInput.innerHTML="<input id='textlbl' type='text' name='text' placeholder='libelle'><br><input id='textadr' type='text' name='text' placeholder='rue, ville' ><br><div id='wrapbtn'><button id='btnadd'>Ajouter</button></div>"
-    /*addInput.style.display="flex";
-    addInput.style.alignItems="center";
-    addInput.style.justifyContent="center";*/
     const stybtn = document.getElementById('wrapbtn').style
     stybtn.display="flex";
     stybtn.alignItems="center";
@@ -136,7 +140,7 @@ function getLocation() {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(showPosition);
       }
-        else{console.log("Geolocation non supportée par ce navigateur.");}
+        else{alert("Geolocation non supportée par ce navigateur.");}
         }
 
 function save(lib,x,y){
@@ -159,6 +163,7 @@ function save(lib,x,y){
           body:JSON.stringify(corps)
     }).catch(function(error){
         console.log(error)
+        
     })
     
 }
@@ -216,7 +221,7 @@ function prepare_div_event() { //fonction lancée après le chargt des objets-ba
                     markers.push(myMarker)
                     myMarker.bindPopup("<b>" + tab.libelle +"</b><br /><button onClick='supMarker(" + markers.indexOf(myMarker) + "," +  ui.draggable[0].id +")'>Supprimer</button>.").openPopup();
                     document.getElementById(ui.draggable[0].id).style.visibility='hidden';
-                    route = L.Routing.control({
+                   /* route = L.Routing.control({
                         waypoints: [
                           L.latLng(myPosition.getLatLng().lat, myPosition.getLatLng().lng),
                           L.latLng(myMarker.getLatLng().lat, myMarker.getLatLng().lng)
@@ -224,9 +229,9 @@ function prepare_div_event() { //fonction lancée après le chargt des objets-ba
                             return L.marker(wp.latLng)
                                 .bindPopup("<b>" + tab.libelle +"</b><br /><button onClick='supRoute(" + i + ")'>Suprimer toute la route</button>.");
                         }
-                      }).addTo(test); 
+                      }).addTo(test); */
                 }
-                document.getElementsByClassName("leaflet-routing-container leaflet-bar leaflet-control")[0].style.visibility='hidden';
+                //document.getElementsByClassName("leaflet-routing-container leaflet-bar leaflet-control")[0].style.visibility='hidden';
 
 			}
 		});
@@ -241,3 +246,12 @@ function prepare_div_event() { //fonction lancée après le chargt des objets-ba
 	
 };
 
+document.getElementById("reload").addEventListener('click', function(e){
+    if(e.target.id=='re'){
+        window.location.reload();
+    }
+    if(e.target.id=='lo'){
+        localStorage.removeItem('token');
+        window.location.href='./index.html'
+    }
+})

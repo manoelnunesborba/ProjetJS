@@ -3,11 +3,17 @@
 
 <head>
   	<meta charset="utf-8">
-  	<title>Create account</title>
+  	<title>Créer un compte</title>
+	  	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin="" />
+	<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+	
 	<link href="./style/style.css" rel="stylesheet">
 </head>
 
 <body>
+	<div  class="droppable"  id="map">
+		
+	</div>
 	<div class="wraplogin">
 		
 		<form id="formId" class="login">
@@ -20,7 +26,7 @@
 		<label for="lname">Repetez votre mot de passe:</label><br>
 		<input class="input3" type="text" id="passwordR" value=""><br><br>
 
-		<div id="question">Déjà un compte ? <a href="./../index.php">Se connecter</a></div>
+		<div id="question">Déjà un compte ? <a href="./index.html">Se connecter</a></div>
 
 		<div class ="wrapbtn">
 		<input class="btnsubmit" type="submit" value="Submit">

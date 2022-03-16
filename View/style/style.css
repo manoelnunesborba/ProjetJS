@@ -17,6 +17,7 @@ body{
     align-items: center;
     justify-content: center;
 }
+
 #selector{
     z-index: 401;
 
@@ -32,6 +33,7 @@ body{
 }
 
 .wraplogin{
+    
     margin-top: 100px;
     display: flex;
     align-items: center;
@@ -100,6 +102,7 @@ body{
     height: 23px;
 }
 .login{
+    z-index: 401;
     background: #FFFFFF;
     box-shadow: 0px 4px 10px 3px rgba(120, 136, 179, 0.5);
     border-radius: 19px;
@@ -150,4 +153,9 @@ ul li{
     font-family:Arial, Helvetica, sans-serif;
     font-weight: 600;
     color :#088CEF;
+}
+.reload{
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
