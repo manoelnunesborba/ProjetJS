@@ -58,20 +58,18 @@ form.addEventListener('submit', function(e){
         console.log("they matcch");
         fetch('http://localhost:4433/controller/createaccount', {
             method:"POST", 
-    
             headers: {
                 'Access-Control-Allow-Origin': '*',
                 'Content-Type': 'application/json'
               },
             body:test
         }).then(function(response){
-            
+            window.location.href = "./index.html";
             return response.json();
             
         }).then(function(text){
+            console.log("ici")
             
-            token = localStorage.setItem('token', JSON.stringify(text));
-            window.location.href = "http://localhost:80/test/projetJS/index.php";
     
         }).catch(function(error){
             e_msg.style.display="";
