@@ -1,6 +1,7 @@
 const test=L.map('map');
 let myPosition;
-var route;
+var route = [];
+var nbroute=0;
 function setMap(x,y,v){
     var map = test.setView([x,y+0.1],v);
     L.tileLayer('https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=PK3tYCS5Vq37x8aBBZNf', {
@@ -23,7 +24,6 @@ var tabTest;
 var dejaajoute = [];
 window.onload = function(){
     const log = localStorage.getItem('token');
-    console.log()
     if(JSON.parse(log).accesToken==""){
         window.location.href="./index.html"
     }
@@ -33,7 +33,7 @@ window.onload = function(){
     selector = document.getElementById('selector');
     const btn = document.getElementById('selector');
         
-    document.getElementById("nom").innerHTML = '<h1> Bienvenu ' + localStorage.getItem('username') +'</h1>';
+    document.getElementById("nom").innerHTML = '<h1> Bienvenue ' + localStorage.getItem('username') +'</h1>';
     const adr = document.getElementById("adr");
     var token = JSON.parse(localStorage.getItem("token"));
     var data = "Baerer " + token["accesToken"];
@@ -59,7 +59,6 @@ window.onload = function(){
         for(let i=0; i < Object.keys(obj).length;i++){
             const li = document.createElement('li');
             
-            console.log(obj[i].y);
             li.innerHTML ="<div id='" +i + "' class='draggable'> Libelle : " + obj[i].libelle + ' ( ' + obj[i].x + ' : ' + obj[i].y + " )</div>";
             ul.appendChild(li);
 
@@ -114,7 +113,6 @@ document.getElementById("addInput").addEventListener("click", function(e){
             },
             success: function(data){
                 const tpm=JSON.parse(data);
-                console.log(tpm.data.length);
                 if(tpm.data!=undefined && tpm.data.length==1){
                     save(lib,tpm.data[0].latitude,tpm.data[0].longitude);
                     window.location.reload();
@@ -133,8 +131,6 @@ document.getElementById("addInput").addEventListener("click", function(e){
 function showPosition(position) { 
     setMap(position.coords.latitude,position.coords.longitude,12);
 
-	console.log(position)
-	console.log("Plus ou Moins " + position.coords.accuracy + " mètres.");
   }
 function getLocation() {
     if (navigator.geolocation) {
@@ -152,7 +148,6 @@ function save(lib,x,y){
         x:x,
         y:y
     };
-    console.log(JSON.stringify(corps))
     fetch('http://localhost:4433/controller/addCoord', {    
         method:"POST", 
         headers: {
@@ -167,21 +162,43 @@ function save(lib,x,y){
     })
     
 }
+/*
+L.Routing.control().addTo(test);
+*/ 
 var markers=[];
 function supMarker(id, indice){
-    console.log(markers[id])
-    test.removeLayer(markers[id])
-    if(markers.length==1){
-        console.log('supression donc pop')
+    
+    if(markers.length<2){
+        test.removeLayer(markers[0])
+        
         const ele = markers.pop();
+        for(let j =0; j < nbroute; j++){
+            route[j].spliceWaypoints(0,route[j].options.waypoints.length);
+
+        }
+
+        nbroute=0;
+        console.log(route)
+
+        
     }else{
-        console.log('supression via slice')
-        markers.splice(id,1)
+        test.removeLayer(markers[id])
+        const sup = markers.splice(id,1)
+        for(let j =0; j < nbroute; j++){
+            for(let i =0; i < route[j].options.waypoints.length; i++){
+                if(sup[0].getLatLng().lat == route[j].options.waypoints[i].lat && sup[0].getLatLng().lng == route[j].options.waypoints[i].lng){
+                    const aa = route[j].spliceWaypoints(0,route[j].options.waypoints.length);
+                }
+            }
+        }
+        nbroute--;
+        
     }
     const sty = document.getElementById(indice);
     sty.style.visibility='visible'
     sty.style=stytest[indice];
     sty.style.position='relative';
+    
     
     
 }
@@ -215,27 +232,32 @@ function prepare_div_event() { //fonction lancée après le chargt des objets-ba
 			drop: function(event, ui){
                 const tab = tabTest[ui.draggable[0].id];
                 var myMarker = L.marker([tab.x, tab.y]);
-                console.log()
                 if(placedispo(myMarker.getLatLng())){
-                    myMarker.addTo(test);
+                    test.addLayer(myMarker)
+                    //myMarker.addTo(test);
                     markers.push(myMarker)
                     myMarker.bindPopup("<b>" + tab.libelle +"</b><br /><button onClick='supMarker(" + markers.indexOf(myMarker) + "," +  ui.draggable[0].id +")'>Supprimer</button>.").openPopup();
                     document.getElementById(ui.draggable[0].id).style.visibility='hidden';
-                   /* route = L.Routing.control({
+                    route[nbroute] = L.Routing.control({
                         waypoints: [
-                          L.latLng(myPosition.getLatLng().lat, myPosition.getLatLng().lng),
-                          L.latLng(myMarker.getLatLng().lat, myMarker.getLatLng().lng)
+                          myPosition.getLatLng(),
+                          myMarker.getLatLng()
                         ],createMarker: function(i, wp, nWps) {
                             return L.marker(wp.latLng)
-                                .bindPopup("<b>" + tab.libelle +"</b><br /><button onClick='supRoute(" + i + ")'>Suprimer toute la route</button>.");
+                                .bindPopup("<b>" + tab.libelle +"</b><br /><button onClick='supMarker(" + markers.indexOf(myMarker) + "," +  ui.draggable[0].id +")'>Supprimer</button>.");
                         }
-                      }).addTo(test); */
+                      }).addTo(test);
+                      const trucAEnlever = document.getElementsByClassName("leaflet-routing-container leaflet-bar leaflet-control");
+                      for(let i = 0; i<trucAEnlever.length;i++){
+                          trucAEnlever[i].style.visibility='hidden';;
+                      }
+                      nbroute++;
+
                 }
-                //document.getElementsByClassName("leaflet-routing-container leaflet-bar leaflet-control")[0].style.visibility='hidden';
 
 			}
 		});
-        $( "[id='selector']" ).droppable({
+        $( ".selector" ).droppable({
 			drop: function(event, ui){
                 console.log('selector');
 
